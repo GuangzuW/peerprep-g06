@@ -8,7 +8,6 @@ import {
 
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
-import { ThemeProvider } from "@mui/material";
 import routerBindings, {
   CatchAllNavigate,
   DocumentTitleHandler,
