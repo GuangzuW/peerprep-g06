@@ -102,7 +102,6 @@ const MatchRequestForm: React.FC = () => {
         {submissionMessage && <p>{submissionMessage}</p>}
         </Grid>
         </Grid>
-        
       </form>
     </Container>
   );
