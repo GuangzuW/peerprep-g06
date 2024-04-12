@@ -13,7 +13,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new AllExceptionsFilter());
   const port = process.env.PORT ? Number(process.env.PORT) : 3002;
-
+  app.enableCors();
   await app.listen(port);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
