@@ -1,0 +1,47 @@
+# This workflow executes several linters on changed files based on languages used in your code base whenever
+# you push a code or open a pull request.
+#
+# You can adjust the behavior by modifying this file.
+# For more information, see:
+# https://github.com/github/super-linter
+name: Manual Super-Linter on Matching Service Branch
+
+on:
+  workflow_dispatch: # This enables manual triggering of the workflow
+  push:
+    branches: [master, main, matching-services]
+  pull_request:
+    branches: [master, main, matching-services]
+
+permissions: read-all
+
+jobs:
+  run-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Super-linter needs the full git history
+
+      - name: Super-linter
+        uses: super-linter/super-linter@v6.3.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # For GitHub Actions status checks
+          FILTER_REGEX_EXCLUDE: (user-service/README\.md|user-service/\.env\.sample)
+          VALIDATE_JAVASCRIPT_STANDARD: false
+          VALIDATE_TYPESCRIPT_STANDARD: false
+          VALIDATE_TSX: false
+          VALIDATE_TYPESCRIPT_ES: false
+          DEFAULT_BRANCH: matching-services
+
+      - name: Linters not handled by Super-linter
+        run: |
+          # frontend
+          cd frontend && npm i && npm run lint && cd -
+
+          # matching-service
+          cd microservices/matching-service && npm i && npm run lint && cd -
+
+          # collaboration-service
+          cd microservices/collaboration-service && npm i && npm run lint && cd -
