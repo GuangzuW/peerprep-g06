@@ -12,5 +12,9 @@ export function defineConfig(appInitialConfig: AppInitialConfig) {
       deleteEndpoint: `${appInitialConfig.userServiceEndpoint}/users`,
       updatePrivilegeEndpoint: `${appInitialConfig.userServiceEndpoint}/users/update-privilege`,
     },
+    questionService: {
+      endpoint: appInitialConfig.questionServiceEndpoint,
+      questionCategoriesEndpoint: `${appInitialConfig.questionServiceEndpoint}/questions/categories`
+    },
   };
 }

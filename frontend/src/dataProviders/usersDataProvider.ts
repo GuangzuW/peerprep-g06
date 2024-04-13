@@ -12,7 +12,7 @@ import * as utils from "../utils";
 
 const defaultDataProvider = dataProvider(appConfig.userService.endpoint, axiosInstance);
 
-export const userDataProvider = {
+export const usersDataProvider = {
   ...defaultDataProvider,
   getList: async <TData extends BaseRecord = BaseRecord>({ resource }: GetListParams) => {
     const apiUrl = defaultDataProvider.getApiUrl();
