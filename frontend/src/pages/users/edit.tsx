@@ -118,7 +118,7 @@ export const UserEdit = () => {
           fullWidth
           InputLabelProps={{ shrink: true }}
           type="text"
-          label={"Username"}
+          label={"Username *"}
           name="username"
         />
         <TextField
@@ -137,7 +137,7 @@ export const UserEdit = () => {
           fullWidth
           InputLabelProps={{ shrink: true }}
           type="text"
-          label={"Email"}
+          label={"Email *"}
           name="email"
         />
         <TextField
@@ -162,7 +162,7 @@ export const UserEdit = () => {
           fullWidth
           InputLabelProps={{ shrink: true }}
           type="password"
-          label={"Password"}
+          label={"Password *"}
           name="password"
         />
         <TextField
@@ -182,7 +182,7 @@ export const UserEdit = () => {
           fullWidth
           InputLabelProps={{ shrink: true }}
           type="password"
-          label={"Confirm Password"}
+          label={"Confirm Password *"}
           name="confirmPassword"
         />
       </Box>

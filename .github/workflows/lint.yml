@@ -39,8 +39,11 @@ jobs:
           # frontend
           cd frontend && npm i && npm run lint && cd -
 
+          # question-service
+          cd microservices/question-service && npm i && npm run lint && cd -
+
           # matching-service
-          cd microservices/collaboration-service && npm i && npm run lint && cd -
+          cd microservices/matching-service && npm i && npm run lint && cd -
 
           # collaboration-service
           cd microservices/collaboration-service && npm i && npm run lint && cd -

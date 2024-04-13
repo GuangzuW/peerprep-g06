@@ -18,23 +18,12 @@ import routerBindings, {
 import dataProvider from "@refinedev/simple-rest";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import PeopleIcon from '@mui/icons-material/People';
-import { userDataProvider } from "./dataProviders";
+import QuizIcon from '@mui/icons-material/Quiz';
+import { dataProviders } from "./dataProviders";
 import { authProvider } from "./authProvider";
 import { accessControlProvider } from "./accessControlProvider";
 import { Layout } from "./components/layout";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from "./pages/categories";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import {
@@ -47,6 +36,12 @@ import {
   UserList,
   UserShow,
 } from "./pages/users";
+import {
+  QuestionCreate,
+  QuestionEdit,
+  QuestionList,
+  QuestionShow,
+} from "./pages/questions";
 import { Collaboration } from "./pages/collaborations";
 
 function App() {
@@ -59,10 +54,7 @@ function App() {
         <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
         <RefineSnackbarProvider>
           <Refine
-            dataProvider={{
-              default: userDataProvider,
-              refineFake: dataProvider("https://api.fake-rest.refine.dev"),
-            }}
+            dataProvider={{ ...dataProviders, refineFake: dataProvider("https://api.fake-rest.refine.dev") }}
             notificationProvider={notificationProvider}
             routerProvider={routerBindings}
             authProvider={authProvider}
@@ -85,26 +77,21 @@ function App() {
                 }
               },
               {
-                name: "blog_posts",
-                list: "/blog-posts",
-                create: "/blog-posts/create",
-                edit: "/blog-posts/edit/:id",
-                show: "/blog-posts/show/:id",
+                name: "questions",
+                list: "/questions",
+                create: "/questions/create",
+                edit: "/questions/edit/:id",
+                show: "/questions/show/:id",
                 meta: {
-                  canDelete: true,
-                  dataProviderName: "refineFake",
-                },
-              },
-              {
-                name: "categories",
-                list: "/categories",
-                create: "/categories/create",
-                edit: "/categories/edit/:id",
-                show: "/categories/show/:id",
-                meta: {
-                  canDelete: true,
-                  dataProviderName: "refineFake",
-                },
+                  icon: <QuizIcon />,
+                  dataProviderName: "questions",
+                  requiredPermissions: {
+                    list: ["admin"],
+                    create: ["admin"],
+                    edit: ["admin"],
+                    show: ["admin"],
+                  }
+                }
               },
             ]}
             options={{
@@ -142,19 +129,13 @@ function App() {
                   <Route path="edit/:id" element={<UserEdit />} />
                   <Route path="show/:id" element={<UserShow />} />
                 </Route>
+                <Route path="/questions">
+                  <Route index element={<QuestionList />} />
+                  <Route path="create" element={<QuestionCreate />} />
+                  <Route path="edit/:id" element={<QuestionEdit />} />
+                  <Route path="show/:id" element={<QuestionShow />} />
+                </Route>
                 <Route path="/collaborate" element={<Collaboration />} />
-                <Route path="/blog-posts">
-                  <Route index element={<BlogPostList />} />
-                  <Route path="create" element={<BlogPostCreate />} />
-                  <Route path="edit/:id" element={<BlogPostEdit />} />
-                  <Route path="show/:id" element={<BlogPostShow />} />
-                </Route>
-                <Route path="/categories">
-                  <Route index element={<CategoryList />} />
-                  <Route path="create" element={<CategoryCreate />} />
-                  <Route path="edit/:id" element={<CategoryEdit />} />
-                  <Route path="show/:id" element={<CategoryShow />} />
-                </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
               <Route
