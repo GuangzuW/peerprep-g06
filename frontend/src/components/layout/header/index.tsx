@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useGetIdentity } from "@refinedev/core";
+import { useGetIdentity, usePermissions, useNavigation } from "@refinedev/core";
 import { HamburgerMenu, RefineThemedLayoutV2HeaderProps, useThemedLayoutContext } from "@refinedev/mui";
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
@@ -13,8 +13,7 @@ import { ColorModeContext } from "../../../contexts/color-mode";
 import { AccountMenu } from "../accountMenu";
 import { PeerPrepIcon } from "../../icons";
 import { IUser } from "../types";
-
-type LayoutHeaderProps = { showHamburger?: boolean } & RefineThemedLayoutV2HeaderProps;
+import Button from "@mui/material/Button";
 
 const Logo: React.FC = () => {
   const { siderCollapsed } = useThemedLayoutContext();
@@ -33,18 +32,23 @@ const Logo: React.FC = () => {
   );
 };
 
-export const Header: React.FC<LayoutHeaderProps> = ({
+export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   sticky = true,
-  showHamburger = true,
 }) => {
   const { mode, setMode } = useContext(ColorModeContext);
+  const { push } = useNavigation();
   const { data: user } = useGetIdentity<IUser>();
+  const { data: permissions } = usePermissions();
+
+  const handleSignIn = () => {
+    push("/login");
+  };
 
   return (
     <AppBar id="app-bar" position={sticky ? "sticky" : "relative"}>
       <Toolbar>
         <Stack direction="row" width="100%" alignItems="center">
-          {showHamburger && <HamburgerMenu />}
+          {(permissions as string[] | undefined)?.includes("admin") && <HamburgerMenu />}
           <Logo />
           <Stack
             direction="row"
@@ -62,9 +66,12 @@ export const Header: React.FC<LayoutHeaderProps> = ({
               {mode === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
             </IconButton>
 
-            {(user?.avatar || user?.username) && (
-              <AccountMenu />
-            )}
+            {(user?.avatar || user?.username)
+              ? <AccountMenu />
+              : <Button color="inherit" onClick={handleSignIn} sx={{ textTransform: "none" }}>
+                Sign In
+              </Button>
+            }
           </Stack>
         </Stack>
       </Toolbar>

@@ -9,6 +9,7 @@ import {
   HttpStatus,
   Res,
   ConflictException,
+  Query,
 } from "@nestjs/common";
 import { Response } from "express";
 import { MongoError } from "mongodb";
@@ -33,8 +34,15 @@ export class QuestionsController {
   }
 
   @Get()
-  async findAll() {
-    return await this.questionsService.findAll();
+  async findAll(
+    @Res({ passthrough: true }) res: Response,
+    @Query("_start") start?: number,
+    @Query("_end") end?: number,
+  ) {
+    const page = await this.questionsService.findAll(start, end);
+    page.total !== undefined
+      ? res.header("X-TOTAL-COUNT", page.total.toString()).send(page.items)
+      : res.send(page.items);
   }
 
   @Get("categories")
