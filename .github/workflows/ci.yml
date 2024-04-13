@@ -1,15 +1,11 @@
-name: Lint
+name: CI
 
-on:
-  push:
-    branches: [master, main]
-  pull_request:
-    branches: [master, main]
+on: [push, pull_request]
 
 permissions: read-all
 
 jobs:
-  build:
+  lint:
     name: Lint
     runs-on: ubuntu-latest
 
@@ -47,3 +43,22 @@ jobs:
 
           # collaboration-service
           cd microservices/collaboration-service && npm i && npm run lint && cd -
+
+  test:
+    name: Test
+    needs: lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run unit tests
+        run: |
+          # question-service
+          cd microservices/question-service && npm i && npm test && cd -
+
+          # matching-service
+          cd microservices/matching-service && npm i && npm test && cd -
+
+          # collaboration-service
+          cd microservices/collaboration-service && npm i && npm test && cd -
