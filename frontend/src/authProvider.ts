@@ -44,7 +44,7 @@ export const authProvider: AuthProvider = {
     sessionStorage.removeItem(TOKEN_KEY);
     return {
       success: true,
-      redirectTo: "/login",
+      redirectTo: "/",
     };
   },
   check: async () => {

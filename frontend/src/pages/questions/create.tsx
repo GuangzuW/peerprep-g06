@@ -92,7 +92,7 @@ export const QuestionCreate = () => {
                   margin="normal"
                   InputLabelProps={{ shrink: true }}
                   label="Categories *"
-                  placeholder="Select existing or add new categories (press <enter> to confirm new)"
+                  placeholder="Select or enter a category, then press <Enter>"
                 />
               )}
             />

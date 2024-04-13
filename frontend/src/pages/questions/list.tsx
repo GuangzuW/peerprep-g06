@@ -13,9 +13,6 @@ import * as questionUtils from "./utils";
 
 export const QuestionList = () => {
   const { dataGridProps } = useDataGrid({
-    pagination: {
-      mode: "client",
-    },
     sorters: {
       mode: "off",
     },

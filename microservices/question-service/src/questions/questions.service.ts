@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Question } from "./interfaces/question.interface";
 import { CreateQuestionDto } from "./dto/create-question.dto";
 import { UpdateQuestionDto } from "./dto/update-question.dto";
+import { Page } from "../common/data/page";
 
 @Injectable()
 export class QuestionsService {
@@ -13,11 +14,23 @@ export class QuestionsService {
 
   async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
     const createdQuestion = new this.questionModel(createQuestionDto);
-    return createdQuestion.save();
+    return await createdQuestion.save();
   }
 
-  async findAll(): Promise<Question[]> {
-    return this.questionModel.find().exec();
+  async findAll(start?: number, end?: number): Promise<Page<Question>> {
+    if (start !== undefined && end !== undefined) {
+      const limit = end - start;
+      const total = await this.questionModel.countDocuments();
+      const items = await this.questionModel
+        .find()
+        .skip(start)
+        .limit(limit)
+        .exec();
+      return { items, total };
+    }
+
+    const items = await this.questionModel.find().exec();
+    return { items };
   }
 
   async findAllCategories(): Promise<string[]> {
@@ -30,7 +43,7 @@ export class QuestionsService {
   }
 
   async findOne(id: string): Promise<Question | null> {
-    return this.questionModel.findOne({ _id: id }).exec();
+    return await this.questionModel.findOne({ _id: id }).exec();
   }
 
   async update(
