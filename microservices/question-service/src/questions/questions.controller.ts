@@ -13,6 +13,9 @@ import {
 } from "@nestjs/common";
 import { Response } from "express";
 import { MongoError } from "mongodb";
+import { Public } from "../auth/decorators/public.decorator";
+import { Roles } from "src/roles/decorators/roles.decorator";
+import { Role } from "src/roles/enum/role.enum";
 import { QuestionsService } from "./questions.service";
 import { CreateQuestionDto } from "./dto/create-question.dto";
 import { UpdateQuestionDto } from "./dto/update-question.dto";
@@ -21,6 +24,7 @@ import { UpdateQuestionDto } from "./dto/update-question.dto";
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 
+  @Roles(Role.Admin)
   @Post()
   async create(@Body() createQuestionDto: CreateQuestionDto) {
     try {
@@ -33,6 +37,7 @@ export class QuestionsController {
     }
   }
 
+  @Public()
   @Get()
   async findAll(
     @Res({ passthrough: true }) res: Response,
@@ -45,11 +50,13 @@ export class QuestionsController {
       : res.send(page.items);
   }
 
+  @Roles(Role.Admin)
   @Get("categories")
   async findAllCategories() {
     return await this.questionsService.findAllCategories();
   }
 
+  @Public()
   @Get(":id")
   async findOne(
     @Res({ passthrough: true }) res: Response,
@@ -64,6 +71,7 @@ export class QuestionsController {
     res.status(HttpStatus.OK).send(found);
   }
 
+  @Roles(Role.Admin)
   @Patch(":id")
   async update(
     @Res({ passthrough: true }) res: Response,
@@ -88,6 +96,7 @@ export class QuestionsController {
     res.status(HttpStatus.OK).send();
   }
 
+  @Roles(Role.Admin)
   @Delete(":id")
   async remove(
     @Res({ passthrough: true }) res: Response,
