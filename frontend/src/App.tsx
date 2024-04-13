@@ -189,7 +189,7 @@ function App() {
                 <Route path="/matches">
                   <Route index element={<MatchRequestList />} />
                   <Route path="create" element={<MatchRequestForm />} />
-                  <Route path="edit/:id" element={<MatchRequestEditForm matchRequest={matchRequest}/>} />
+                  <Route path="edit/:id" element={<MatchRequestEditForm />} />
                   <Route path="show/:id" element={<MatchShow />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />

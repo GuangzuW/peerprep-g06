@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, MenuItem, Select, FormControl, InputLabel, FormHelperText, Container, Grid, CircularProgress } from '@mui/material';
 import axios from 'axios';
+import { useGetIdentity } from "@refinedev/core";
+import { appConfig } from '../../config';
+import { IUser } from '../../components/layout/types';
 
 interface FormValues {
+  email: string
   difficulty: string;
   category: string;
   time_limit?: string;
@@ -13,14 +17,17 @@ interface FormValues {
 const MatchRequestForm: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
+  const { data: user } = useGetIdentity<IUser>();
 
   const formik = useFormik<FormValues>({
     initialValues: {
+      email: '',
       difficulty: '',
       category: '',
       time_limit: ''
     },
     validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email address').required('Email is required'),
       difficulty: Yup.string().required('Difficulty is required'),
       category: Yup.string().required('Category is required'),
       time_limit: Yup.string()
@@ -28,8 +35,8 @@ const MatchRequestForm: React.FC = () => {
     onSubmit: async (values) => {
       setIsSubmitting(true);
       try {
-        // todo
-        const response = await axios.post('https://localhost:8080/matching/request', values);
+        const response = await axios.post("http://localhost:3002/matching-services", values);
+        console.log(values);
         setSubmissionMessage('Request submitted successfully!');
         // Handle response
         console.log(response.data);
@@ -42,6 +49,12 @@ const MatchRequestForm: React.FC = () => {
       }
     },
   });
+
+  useEffect(() => {
+    if (user?.email) {
+      formik.setFieldValue('email', user.email);
+    }
+  }, [user?.email, formik.setFieldValue]);
 
   return (
     <Container maxWidth="sm">
@@ -92,15 +105,15 @@ const MatchRequestForm: React.FC = () => {
             />
           </Grid>
           <Grid item xs={12}>
-        {isSubmitting ? (
-          <CircularProgress />
-        ) : (
-          <Button color="primary" variant="contained" fullWidth type="submit" disabled={isSubmitting}>
-            Start Matching
-          </Button>
-        )}
-        {submissionMessage && <p>{submissionMessage}</p>}
-        </Grid>
+            {isSubmitting ? (
+              <CircularProgress />
+            ) : (
+              <Button color="primary" variant="contained" fullWidth type="submit" disabled={isSubmitting}>
+                Start Matching
+              </Button>
+            )}
+            {submissionMessage && <p>{submissionMessage}</p>}
+          </Grid>
         </Grid>
       </form>
     </Container>

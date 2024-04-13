@@ -1,28 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { TextField, Button, MenuItem, Select, FormControl, InputLabel, FormHelperText, Container, Grid, CircularProgress } from '@mui/material';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { Email } from '@mui/icons-material';
 
 interface MatchRequest {
-  id: number;
+  id: string;
+  email: string;
   difficulty: string;
   category: string;
   time_limit?: string;
 }
 
-const MatchRequestEditForm: React.FC<{ matchRequest: MatchRequest }> = ({ matchRequest }) => {
+const MatchRequestEditForm = () => {
+  const { id } = useParams();
+  const [matchRequest, setMatchRequest] = useState<MatchRequest | null>(null);
+  const [isFetching, setIsFetching] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
 
+  useEffect(() => {
+    const fetchMatchRequest = async () => {
+      try {
+        console.log(`http://localhost:3002/matching-services/${id}`);
+        const response = await axios.get(`http://localhost:3002/matching-services/${id}`);
+        setMatchRequest(response.data);
+        setIsFetching(false);
+      } catch (error) {
+        console.error('Failed to fetch match request:', error);
+        setIsFetching(false);
+      }
+    };
+
+    fetchMatchRequest();
+  }, [id]);
+
   const formik = useFormik({
     initialValues: {
-      id: matchRequest.id,
-      difficulty: matchRequest.difficulty,
-      category: matchRequest.category,
-      time_limit: matchRequest.time_limit || ''
+      email: matchRequest?.email || '',
+      difficulty: matchRequest?.difficulty || '',
+      category: matchRequest?.category || '',
+      time_limit: matchRequest?.time_limit || ''
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email address').required('Email is required'),
       difficulty: Yup.string().required('Difficulty is required'),
       category: Yup.string().required('Category is required'),
       time_limit: Yup.string()
@@ -30,12 +54,13 @@ const MatchRequestEditForm: React.FC<{ matchRequest: MatchRequest }> = ({ matchR
     onSubmit: async (values) => {
       setIsSubmitting(true);
       try {
-        const response = await axios.put(`https://localhost:8080/matching/request/${values.id}`, values);
+        console.log(matchRequest)
+        console.log(`http://localhost:3002/matching-services/${id}`);
+        const response = await axios.put(`http://localhost:3002/matching-services/${id}`, values);
+
         setSubmissionMessage('Request updated successfully!');
-        // Handle response
         console.log(response.data);
       } catch (error) {
-        // Handle error
         console.error(error);
         setSubmissionMessage('Update failed. Please try again.');
       } finally {
@@ -43,6 +68,11 @@ const MatchRequestEditForm: React.FC<{ matchRequest: MatchRequest }> = ({ matchR
       }
     },
   });
+
+  if (isFetching) {
+    return <CircularProgress />;
+  }
+
 
   return (
     <Container maxWidth="sm">

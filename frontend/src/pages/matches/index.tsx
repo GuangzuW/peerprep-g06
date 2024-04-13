@@ -1,7 +1,7 @@
-export { default as MatchRequestForm } from './createMatch';
-export { default as MatchRequestEditForm } from './editMatch';
+export { default as MatchRequestForm } from './create';
+export { default as MatchRequestEditForm } from './edit';
 /* eslint-disable react-refresh/only-export-components */
-export * from './matchesList';
-export * from './editMatch';
-export * from './showMatch';
+export * from './list';
+export * from './edit';
+export * from './show';
 /* eslint-enable react-refresh/only-export-components */
