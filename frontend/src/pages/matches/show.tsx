@@ -26,8 +26,8 @@ export const MatchShow = () => {
   useEffect(() => {
     const fetchMatchRequest = async () => {
       try {
-        console.log(`http://localhost:3002/matching-services/${id}`);
-        const response = await axios.get(`http://localhost:3002/matching-services/${id}`);
+        console.log(`http://localhost:3003/matching-services/${id}`);
+        const response = await axios.get(`http://localhost:3003/matching-services/${id}`);
         setMatchRequest(response.data);
         setIsFetching(false);
       } catch (error) {

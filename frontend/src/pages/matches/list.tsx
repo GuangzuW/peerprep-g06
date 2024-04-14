@@ -26,7 +26,7 @@ export const MatchRequestList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3002/matching-services/");
+        const response = await axios.get("http://localhost:3003/matching-services/");
         const validData = response.data.filter((item: { _id: null; }) => item._id != null);
         setMatchRequests(validData);
         console.log(validData);

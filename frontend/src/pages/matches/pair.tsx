@@ -12,7 +12,7 @@ const MatchingInProgress: React.FC = () => {
   const [showError, setShowError] = useState(false);
 
   useEffect(() => {
-    const socket = io('http://localhost:3002');
+    const socket = io('http://localhost:3003');
 
     socket.on('matchFound', (data) => {
       setMatchInfo(data);

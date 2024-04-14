@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
+import { Injectable, HttpException, HttpStatus, ConsoleLogger } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import { firstValueFrom } from "rxjs";
 import { ConfigService } from "@nestjs/config";
@@ -92,8 +92,10 @@ export class ExternalServicesService {
   ): Promise<any> {
     const questionServiceUrl = this.configService.get("QUESTION_SERVICE_URL");
     try {
+      console.log("Fetching questions by criteria:", category, difficulty);
+      console.log(`${questionServiceUrl}/questions/search`);
       const response = await firstValueFrom(
-        this.httpService.get(`${questionServiceUrl}/questions/find`, {
+        this.httpService.get(`${questionServiceUrl}/questions/search`, {
           params: { category, difficulty },
         }),
       );
