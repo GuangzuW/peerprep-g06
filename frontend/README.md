@@ -81,10 +81,6 @@ npm  run  build
 
 After building the application, start the production server with:
 
-### Start the Production Server
-
-After building the application, start the production server with:
-
 ```bash
 
 npm  run  start
@@ -93,10 +89,6 @@ npm  run  start
 npm  run  start
 
 ```
-
-### Access the Frontend
-
-The frontend can be accessed through:
 
 ### Access the Frontend
 

@@ -1,4 +1,3 @@
-----------
 # Question Service
 
 ![PeerPrep Logo](../../GuideAssets/Logo.png)
@@ -98,5 +97,3 @@ Generate and view test coverage reports:
 npm run test:cov
 
 ```
-
----

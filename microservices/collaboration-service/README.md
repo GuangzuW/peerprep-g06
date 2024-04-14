@@ -1,5 +1,3 @@
----
-
 # Collaboration Service
 
 ![PeerPrep Logo](../../GuideAssets/Logo.png)
