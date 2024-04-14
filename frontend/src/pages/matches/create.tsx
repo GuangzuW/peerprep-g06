@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useGetIdentity } from "@refinedev/core";
 import { appConfig } from '../../config';
 import { IUser } from '../../components/layout/types';
+import { useNavigate } from 'react-router-dom';
 
 interface FormValues {
   email: string
@@ -15,6 +16,7 @@ interface FormValues {
 }
 
 const MatchRequestForm: React.FC = () => {
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
   const { data: user } = useGetIdentity<IUser>();
@@ -40,6 +42,7 @@ const MatchRequestForm: React.FC = () => {
         setSubmissionMessage('Request submitted successfully!');
         // Handle response
         console.log(response.data);
+        navigate('/matches/pair', { state: { timeLimit: values.time_limit || '60' } });
       } catch (error) {
         // Handle error
         console.error(error);

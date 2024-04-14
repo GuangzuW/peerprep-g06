@@ -52,26 +52,12 @@ import {
   MatchRequestEditForm,
   MatchRequestList,
   MatchRequestForm,
-  MatchShow
+  MatchShow,
+  MatchingInProgress,
 } from "./pages/matches";
 
 function App() {
   useDocumentTitle("PeerPrep");
-
-  interface MatchRequest {
-    id: number;
-    difficulty: string;
-    category: string;
-    time_limit?: string;
-    status?: string;
-  }
-
-  const matchRequest:  MatchRequest= {
-    id: 1,
-    difficulty: 'easy',
-    category: 'Programming',
-    time_limit: '60 minutes',
-  };
 
   return (
     <BrowserRouter>
@@ -191,6 +177,7 @@ function App() {
                   <Route path="create" element={<MatchRequestForm />} />
                   <Route path="edit/:id" element={<MatchRequestEditForm />} />
                   <Route path="show/:id" element={<MatchShow />} />
+                  <Route path="pair" element={<MatchingInProgress />} />
                 </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>

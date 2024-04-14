@@ -12,6 +12,7 @@ import { BullModule } from "@nestjs/bull";
 import { ProcessConsumer } from "./matchingservices.processor";
 import { HttpModule } from "@nestjs/axios";
 import { ExternalServicesService } from "./external-services.service";
+import { EventsGateway } from './EventGateway';
 
 /**
  * Represents the module for the matching services in the application.
@@ -43,6 +44,7 @@ import { ExternalServicesService } from "./external-services.service";
     MatchingServicesService,
     ProcessConsumer,
     ExternalServicesService,
+    EventsGateway,
   ],
 })
 export class MatchingServicesModule {}
