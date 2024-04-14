@@ -1,0 +1,7 @@
+# Ignore .env files
+.env*
+
+# Ignore compiled output
+/dist
+/node_modules
+/build

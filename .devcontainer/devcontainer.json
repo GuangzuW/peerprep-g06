@@ -4,6 +4,9 @@
       "dockerfile": "Dockerfile"
     },
     "postCreateCommand": "./.devcontainer/container/post-create",
+    "runArgs": [
+      "--add-host=host.docker.internal:host-gateway"
+    ],
     "containerEnv": {
       "HOME": "/home/vscode"
     },
