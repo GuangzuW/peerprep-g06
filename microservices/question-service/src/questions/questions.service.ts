@@ -13,8 +13,8 @@ export class QuestionsService {
   ) {}
 
   async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
-    const createdQuestion = new this.questionModel(createQuestionDto);
-    return await createdQuestion.save();
+    const createdQuestion = this.questionModel.create(createQuestionDto);
+    return createdQuestion;
   }
 
   async findAll(start?: number, end?: number): Promise<Page<Question>> {

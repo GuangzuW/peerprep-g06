@@ -1,9 +1,20 @@
-import * as mongoose from "mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
 
-export const QuestionSchema = new mongoose.Schema({
-  title: { type: String, unique: true },
-  description: String,
-  categories: [String],
-  complexity: String,
-  createdAt: { type: Date, default: Date.now },
-});
+export type QuestionDocument = Document<Question>;
+
+@Schema()
+export class Question {
+  @Prop({ required: true, unique: true })
+  title: string;
+  @Prop()
+  description: string;
+  @Prop()
+  categories: [string];
+  @Prop()
+  complexity: string;
+  @Prop({ default: Date.now })
+  createdAt: Date;
+}
+
+export const QuestionSchema = SchemaFactory.createForClass(Question);
