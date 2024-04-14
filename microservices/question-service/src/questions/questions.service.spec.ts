@@ -87,11 +87,13 @@ describe("QuestionsService", () => {
 
   it("should find all categories", async () => {
     jest.spyOn(mockQuestionModel, "find").mockReturnValue({
-      exec: jest.fn().mockResolvedValueOnce([
-        { categories: ["API", "REST"] },
-        { categories: ["API", "GraphQL"] },
-        { categories: ["REST"] }
-      ]),
+      exec: jest
+        .fn()
+        .mockResolvedValueOnce([
+          { categories: ["API", "REST"] },
+          { categories: ["API", "GraphQL"] },
+          { categories: ["REST"] },
+        ]),
     } as any);
     const categories = await mockService.findAllCategories();
     expect(categories).toEqual(["API", "GraphQL", "REST"]);
