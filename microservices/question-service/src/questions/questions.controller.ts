@@ -40,7 +40,7 @@ export class QuestionsController {
   @Public()
   @Get()
   async findAll(
-    @Res({ passthrough: true }) res: Response,
+    @Res() res: Response,
     @Query("_start") start?: number,
     @Query("_end") end?: number,
   ) {
@@ -58,10 +58,7 @@ export class QuestionsController {
 
   @Public()
   @Get(":id")
-  async findOne(
-    @Res({ passthrough: true }) res: Response,
-    @Param("id") id: string,
-  ) {
+  async findOne(@Res() res: Response, @Param("id") id: string) {
     const found = await this.questionsService.findOne(id);
     if (!found) {
       res.status(HttpStatus.NOT_FOUND).send();
@@ -74,7 +71,7 @@ export class QuestionsController {
   @Roles(Role.Admin)
   @Patch(":id")
   async update(
-    @Res({ passthrough: true }) res: Response,
+    @Res() res: Response,
     @Param("id") id: string,
     @Body() updateQuestionDto: UpdateQuestionDto,
   ) {
@@ -98,10 +95,7 @@ export class QuestionsController {
 
   @Roles(Role.Admin)
   @Delete(":id")
-  async remove(
-    @Res({ passthrough: true }) res: Response,
-    @Param("id") id: string,
-  ) {
+  async remove(@Res() res: Response, @Param("id") id: string) {
     const found = await this.questionsService.remove(id);
     if (!found) {
       res.status(HttpStatus.NOT_FOUND).send();
