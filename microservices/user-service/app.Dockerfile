@@ -10,7 +10,7 @@ ENV ENV=PROD
 HEALTHCHECK --interval=1m --timeout=3s \
     CMD curl -f http://localhost:${PORT} || exit 1
 
-WORKDIR /opt/user-service
+WORKDIR /opt/peerprep-user-service
 COPY . .
 
 RUN true \
