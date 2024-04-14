@@ -1,46 +1,96 @@
-# Collaboration Service
+----------
+# Matching Service
 
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-
-<p align="center">
-  A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.
+  <img src="../../GuideAssets/Logo.png" width="200" alt="PeerPrep Logo">
 </p>
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+PeerPrep is a technical interview preparation platform designed to offer a collaborative environment for students to practice and prepare for technical interviews. Utilizing a microservices architecture, this platform focuses on enabling real-time collaboration among users who are matched based on criteria such as difficulty level and topic. The Matching Service uses the [Nest](https://github.com/nestjs/nest) framework, designed to manage user matches effectively and efficiently. This service uses Redis and MongoDB to facilitate quick data retrieval and storage, ensuring optimal performance during user matching operations.
 
 ## Installation
 
+Before you can run the service, install the necessary dependencies:
+
 ```bash
+
 npm install
-```
 
-## Running the app
+```
+## Environment Setup
+
+Configure the environment variables necessary for connecting to Redis and MongoDB by creating a `.env` file in your project root with the following contents:
 
 ```bash
-# development
-$ npm run start
 
-# watch mode
-$ npm run start:dev
+REDIS_HOST=<REDIS_HOST_CONNECTION_STRING>
+REDIS_PORT=<REDIS_PORT>
+REDIS_PASS=<REDIS_PASSWORD>
+MONGODB_URI=<MONGODB_CONNECTION_STRING>
+PORT=<MONGODB_CONNECTION_PORT>
 
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+## Running the App
+
+### Development
+
+Start the service in development mode:
 
 ```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
+npm run start
 
-# test coverage
-$ npm run test:cov
+```
+
+### Watch Mode
+
+Run the service in watch mode to automatically reload on file changes:
+
+```bash
+
+npm run start:dev
+
+```
+
+### Production Mode
+
+Deploy the service in production mode:
+
+
+```bash
+
+npm run start:prod
+
+```
+
+## Testing
+
+Ensure your application is running smoothly by executing the following test commands:
+
+### Unit Tests
+
+```bash
+
+npm run test
+
+```
+
+
+### End-to-End Tests
+
+```bash
+
+npm run test:e2e
+
+```
+
+### Test Coverage
+
+Generate and view test coverage reports:
+```bash
+
+npm run test:cov
+
 ```
