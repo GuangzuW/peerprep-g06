@@ -1,49 +1,110 @@
-# peerprep-frontend
+# PeerPrep Frontend
 
-<div align="center" style="margin: 30px;">
-    <a href="https://refine.dev">
-    <img alt="refine logo" src="https://refine.ams3.cdn.digitaloceanspaces.com/readme/refine-readme-banner.png">
-    </a>
-</div>
-<br/>
+![PeerPrep Logo](../GuideAssets/Logo.png)
 
-This [Refine](https://github.com/refinedev/refine) project was generated with [create refine-app](https://github.com/refinedev/refine/tree/master/packages/create-refine-app).
+## Overview
 
-## Getting Started
+PeerPrep is a technical interview preparation platform designed to offer a
+collaborative environment for students to practice and prepare for technical
+interviews. Utilizing a microservices architecture, this platform focuses on
+enabling real-time collaboration among users who are matched based on criteria
+such as difficulty level and topic. The frontend component leverages
+[Refine](https://refine.dev/docs), a robust framework that simplifies the creation
+of admin panels, B2B, and B2C applications.
 
-A React Framework for building internal tools, admin panels, dashboards & B2B apps with unmatched flexibility ✨
+## Setup and Installation
 
-Refine's hooks and components simplifies the development process and eliminates the repetitive tasks by providing industry-standard solutions for crucial aspects of a project, including authentication, access control, routing, networking, state management, and i18n.
+### Clone the Repository
 
-## Available Scripts
-
-### Running the development server
+To get started, clone the repository and navigate to the frontend directory:
 
 ```bash
-    npm run dev
+
+git  clone  https://github.com/TIC3001-AY2324S2/peerprep-g06.git
+
+cd  frontend`
+
 ```
 
-### Building for production
+### Install Dependencies
+
+Install the necessary dependencies using npm:
 
 ```bash
-    npm run build
+
+npm  install
+
 ```
 
-### Running the production server
+### Environment Variables
+
+Create a `.env` file in the root directory of your project and add the
+following configurations:
 
 ```bash
-    npm run start
+
+VITE_QUESTION_SERVICE_ENDPOINT=http://localhost:3002
+
+VITE_USER_SERVICE_ENDPOINT=http://localhost:3001
+
+```
+
+These variables set the endpoints for the question and user services.
+
+## Running the Application
+
+### Development Server
+
+Start the development server with the following command, which will
+also open the application in your default web browser:
+
+```bash
+
+npm  run  dev
+
+```
+
+### Build for Production
+
+Compile and optimize the application for production using:
+
+```bash
+
+npm  run  build
+
+```
+
+### Start the Production Server
+
+After building the application, start the production server with:
+
+```bash
+
+npm  run  start
+
+```
+
+### Access the Frontend
+
+The frontend can be accessed through:
+
+```bash
+
+http://localhost:5174/
+
 ```
 
 ## Learn More
 
-To learn more about **Refine**, please check out the [Documentation](https://refine.dev/docs)
+To deepen your understanding of the tools used in this project, explore the
+following resources:
 
-- **REST Data Provider** [Docs](https://refine.dev/docs/core/providers/data-provider/#overview)
-- **Material UI** [Docs](https://refine.dev/docs/ui-frameworks/mui/tutorial/)
-- **React Router** [Docs](https://refine.dev/docs/core/providers/router-provider/)
-- **Custom Auth Provider** [Docs](https://refine.dev/docs/core/providers/auth-provider/)
+- **Refine** [Documentation](https://refine.dev/docs)
 
-## License
+- **REST Data Provider** [Documentation](https://refine.dev/docs/core/providers/data-provider/#overview)
 
-MIT
+- **Material UI** [Tutorial](https://refine.dev/docs/ui-frameworks/mui/tutorial/)
+
+- **React Router** [Documentation](https://refine.dev/docs/core/providers/router-provider/)
+
+- **Custom Auth Provider** [Documentation](https://refine.dev/docs/core/providers/auth-provider/)
