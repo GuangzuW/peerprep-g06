@@ -18,7 +18,6 @@ export const QuestionEdit = () => {
     formState: { errors },
   } = useForm({});
   const record = queryResult?.data?.data;
-  console.log(record);
 
   const { data: categoriesData, isLoading: isCategoriesLoading } = useCustom({
     url: appConfig.questionService.questionCategoriesEndpoint,
@@ -101,26 +100,31 @@ export const QuestionEdit = () => {
             />
           )}
         />
-        <TextField
-          {...register("complexity", {
-            required: "This field is required",
-          })}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          error={!!(errors as any)?.complexity}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          helperText={(errors as any)?.complexity?.message}
-          margin="normal"
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          select
-          label={"Complexity *"}
-          value={record?.complexity ?? ""}
-          name="complexity"
-        >
-          <MenuItem value="Easy">Easy</MenuItem>
-          <MenuItem value="Medium">Medium</MenuItem>
-          <MenuItem value="Hard">Hard</MenuItem>
-        </TextField>
+        <Controller
+          control={control}
+          name={"complexity"}
+          rules={{ required: "This field is required" }}
+          defaultValue={record?.complexity ?? ""}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              error={!!(errors as any)?.complexity}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              helperText={(errors as any)?.complexity?.message}
+              margin="normal"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+              select
+              label={"Complexity *"}
+              name="complexity"
+            >
+              <MenuItem value="Easy">Easy</MenuItem>
+              <MenuItem value="Medium">Medium</MenuItem>
+              <MenuItem value="Hard">Hard</MenuItem>
+            </TextField>
+          )}
+        />
       </Box>
     </Edit>
   );
