@@ -1,8 +1,12 @@
 import { useGetIdentity, useNavigation } from "@refinedev/core";
+import { Link as RouterLink } from "react-router-dom";
 import { useForm } from "@refinedev/react-hook-form";
 import { Edit } from "@refinedev/mui";
 import Box from "@mui/material/Box";
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import * as utils from "../../utils";
 import { IUser } from "../../components/layout/types";
 
@@ -35,7 +39,18 @@ export const MyAccountEdit = () => {
   }
 
   return (
-    <Edit isLoading={formLoading} saveButtonProps={saveButtonProps}>
+    <Edit
+      isLoading={formLoading}
+      saveButtonProps={saveButtonProps}
+      goBack={""}
+      title={
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link component={RouterLink} underline="hover" color="inherit" to="/my-account" >My Account</Link>
+          <Typography color="text.primary">Edit</Typography>
+        </Breadcrumbs>
+      }
+      headerButtonProps={{ display: "none" }}
+    >
       <Box
         component="form"
         sx={{ display: "flex", flexDirection: "column" }}
