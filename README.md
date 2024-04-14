@@ -1,23 +1,53 @@
-# PeerPrep
+# PeerPrep Technical Interview Preparation Platform
 
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/jhSo0Xzm)
+![PeerPrep Logo](/GuideAssets/Logo.png)
 
-## Developing inside a Container using Visual Studio Code
+## Introduction
 
-For detailed information, please refer to the official documentation on [Developing inside a Container](https://code.visualstudio.com/docs/devcontainers/containers).
+PeerPrep is a collaborative, real-time platform designed to enhance technical interview
+preparations for students. It aims to provide a seamless environment where students
+can register, match with peers of similar interests and difficulty levels, and engage
+in collaborative problem-solving. The platform features a comprehensive question
+repository and an interactive web-based user interface, ensuring accessibility and
+ease of use.
 
-## User Service
+## System Architecture and Features
 
-### Quick Start
-1. Rename `.env.sample` file to `.env`.
-2. Create a Cloud DB URL using Mongo Atlas.
-3. Enter the DB URL created as `DB_CLOUD_URI` in `.env` file.
-4. Install npm packages using `npm i`.
-5. Run User Service using `npm run dev`.
+### Frontend
 
-### Complete User Service Guide: [User Service Guide](./user-service/README.md)
+**Frontend UI**:
 
-## Frontend
+Delivers a responsive and intuitive user interface that supports real-time interactions
+and seamlessly integrates with backend services.
 
-1. Install npm packages using `npm i`.
-2. Run frontend using `npm run dev`.
+[Frontend Guide](./frontend/README.md)
+
+### Microservices
+
+**User Service**:
+
+Manages user registration, login, and profile management. This service is crucial
+for authenticating users and maintaining user data security.
+
+[User Service Guide](./microservices/user-service/README.md)
+
+**Matching Service**:
+
+Facilitates the matching of students based on selected criteria, optimizing the pairing
+process to reduce wait times and enhance user experience.
+
+[Matching Service Guide](./microservices/matching-service/README.md)
+
+**Question Service**:
+
+Responsible for storing and retrieving coding problems from a robust database, allowing
+filtering by topic and difficulty.
+
+[Question Service Guide](./microservices/question-service/README.md)
+
+**Collaboration Service**:
+
+Provides real-time collaborative sessions for code development, featuring tools for
+concurrent editing and interactive problem-solving.
+
+[Collaboration Service Guide](./microservices/collaboration-service/README.md)
