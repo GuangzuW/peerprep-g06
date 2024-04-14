@@ -36,13 +36,13 @@ jobs:
           cd frontend && npm i && npm run lint && cd -
 
           # question-service
-          cd microservices/question-service && npm i && npm run lint && cd -
+          cd microservices/question-service && npm ci && npm run lint && cd -
 
           # matching-service
-          cd microservices/matching-service && npm i && npm run lint && cd -
+          cd microservices/matching-service && npm ci && npm run lint && cd -
 
           # collaboration-service
-          cd microservices/collaboration-service && npm i && npm run lint && cd -
+          cd microservices/collaboration-service && npm ci && npm run lint && cd -
 
   test:
     name: Test
@@ -55,10 +55,10 @@ jobs:
       - name: Run unit tests
         run: |
           # question-service
-          cd microservices/question-service && npm i && npm test && cd -
+          cd microservices/question-service && npm ci && npm test && cd -
 
           # matching-service
-          cd microservices/matching-service && npm i && npm test && cd -
+          cd microservices/matching-service && npm ci && npm test && cd -
 
           # collaboration-service
-          cd microservices/collaboration-service && npm i && npm test && cd -
+          cd microservices/collaboration-service && npm ci && npm test && cd -
