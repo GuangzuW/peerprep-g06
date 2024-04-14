@@ -72,7 +72,14 @@ Compile and optimize the application for production using:
 
 npm  run  build
 
+
+npm  run  build
+
 ```
+
+### Start the Production Server
+
+After building the application, start the production server with:
 
 ### Start the Production Server
 
@@ -82,13 +89,23 @@ After building the application, start the production server with:
 
 npm  run  start
 
+
+npm  run  start
+
 ```
 
 ### Access the Frontend
 
 The frontend can be accessed through:
 
+### Access the Frontend
+
+The frontend can be accessed through:
+
 ```bash
+
+http://localhost:5174/
+
 
 http://localhost:5174/
 
