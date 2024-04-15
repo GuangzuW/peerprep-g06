@@ -1,5 +1,5 @@
-import { WebSocketGateway, SubscribeMessage, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { Server } from "socket.io";
 
 @WebSocketGateway({ cors: true })
 export class EventsGateway {
@@ -7,6 +7,6 @@ export class EventsGateway {
   server: Server;
 
   notifyMatchFound(data: any) {
-    this.server.emit('matchFound', data);
+    this.server.emit("matchFound", data);
   }
 }

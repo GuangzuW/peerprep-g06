@@ -1,4 +1,4 @@
-import { Injectable, HttpException, HttpStatus, ConsoleLogger } from "@nestjs/common";
+import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import { firstValueFrom } from "rxjs";
 import { ConfigService } from "@nestjs/config";

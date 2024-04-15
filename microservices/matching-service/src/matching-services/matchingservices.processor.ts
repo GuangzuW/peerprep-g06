@@ -3,7 +3,7 @@ import { InjectQueue } from "@nestjs/bull";
 import { Job, Queue } from "bull";
 import { MatchingServicesService } from "./matchingservices.service";
 import { ExternalServicesService } from "./external-services.service";
-import { EventsGateway } from './EventGateway';
+import { EventsGateway } from "./EventGateway";
 
 /**
  * Processor consumer class for matching services.
@@ -89,13 +89,12 @@ export class ProcessConsumer {
       matchingJob.id,
       matchedQuestion.id,
     );
-    
+
     this.eventsGateway.notifyMatchFound({
       jobId: newJob.id,
       matchedJobId: matchingJob.id,
       questionId: matchedQuestion.id,
     });
-
 
     await this.matchingServicesService.pairServices(
       newJob.data,
@@ -106,7 +105,6 @@ export class ProcessConsumer {
     await newJob.moveToCompleted();
     await matchingJob.moveToCompleted();
     console.log("Jobs paired and removed from queue.");
-
   }
 
   /**
