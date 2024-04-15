@@ -1,0 +1,78 @@
+version: "3"
+
+services:
+  # MongoDB (User Service)
+  user_service_mongodb:
+    build:
+      context: ./user-service
+      dockerfile: db.Dockerfile
+    restart: always
+    networks:
+      - user_service_internal
+    ports:
+      - "0.0.0.0:27017:27017"
+    volumes:
+      - user_service_mongodb:/data/db
+
+  # Application (User Service)
+  user_service_app:
+    build:
+      context: ./user-service
+      dockerfile: app.Dockerfile
+    depends_on:
+      - user_service_mongodb
+    restart: always
+    networks:
+      - user_service_internal
+      - user_service_public
+    ports:
+      - "0.0.0.0:3001:3001"
+    environment:
+      DB_CLOUD_URI: mongodb://user_service_mongodb:27017
+      PORT: 3001
+      ENV: PROD
+      JWT_SECRET: secret
+
+  # MongoDB (Question Service)
+  question_service_mongodb:
+    build:
+      context: ./question-service
+      dockerfile: db.Dockerfile
+    restart: always
+    networks:
+      - question_service_internal
+    ports:
+      - "0.0.0.0:27017:27017"
+    volumes:
+      - question_service_mongodb:/data/db
+
+  # Application (Question Service)
+  question_service_app:
+    build:
+      context: ./question-service
+      dockerfile: app.Dockerfile
+    depends_on:
+      - question_service_mongodb
+      - user_service_app
+    restart: always
+    networks:
+      - question_service_internal
+      - question_service_public
+      - user_service_public
+    ports:
+      - "0.0.0.0:3002:3002"
+    environment:
+      DB_CLOUD_URI: mongodb://question_service_mongodb:27017
+      AUTH_VERIFY_TOKEN_ENDPOINT: http://user_service_app:3001/auth/verify-token
+
+networks:
+  user_service_internal:
+    internal: true
+  user_service_public:
+  question_service_internal:
+    internal: true
+  question_service_public:
+
+volumes:
+  user_service_mongodb:
+  question_service_mongodb:

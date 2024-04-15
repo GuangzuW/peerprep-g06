@@ -12,6 +12,8 @@ COPY . .
 RUN true \
     # Install dependencies
     && npm ci \
+    # Lint
+    && npm run lint \
     # Run unit tests
     && npm test \
     # Build
@@ -27,9 +29,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 HEALTHCHECK --interval=1m --timeout=3s \
     CMD curl -f http://localhost:3002 || exit 1
 
-WORKDIR /opt/question-service
-COPY --from=build /workspace/dist /opt/question-service
-COPY package*.json /opt/question-service
+WORKDIR /opt/peerprep-question-service
+COPY --from=build /workspace/dist /opt/peerprep-question-service
+COPY package*.json /opt/peerprep-question-service
 
 RUN true \
     # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
