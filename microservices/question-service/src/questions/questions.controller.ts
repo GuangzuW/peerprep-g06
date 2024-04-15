@@ -119,7 +119,7 @@ export class QuestionsController {
     if (results.length === 0) {
       res
         .status(HttpStatus.NOT_FOUND)
-          .send("No questions found matching your criteria");
+        .send("No questions found matching your criteria");
       return;
     }
 
