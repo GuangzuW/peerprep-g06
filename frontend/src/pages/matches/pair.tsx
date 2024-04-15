@@ -9,14 +9,14 @@ const MatchingInProgress: React.FC = () => {
   const [countdown, setCountdown] = useState(parseInt(timeLimit, 10)); // 30 seconds countdown
   const navigate = useNavigate();
   const [matchInfo, setMatchInfo] = useState(null);
-  const [showError, setShowError] = useState(false);
+  // const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     const socket = io('http://localhost:3003');
 
     socket.on('matchFound', (data) => {
       setMatchInfo(data);
-      setCountdown(10);  // Reset countdown for redirect upon finding a match
+      setCountdown(10);
     });
 
     return () => {
@@ -35,17 +35,15 @@ const MatchingInProgress: React.FC = () => {
 
   useEffect(() => {
     if (matchInfo) {
-      // If a match is found, we navigate immediately or after a set time to the collaboration page
       const timerId = setTimeout(() => {
         navigate(`/collaboration`);
-      }, 10000); // Delay to show "match found" message, adjust as needed
+      }, 10000);
       return () => clearTimeout(timerId);
     } else if (countdown === 0) {
-      // If countdown reaches zero and no match is found, show error and navigate back
-      setShowError(true); // Assume setShowError triggers UI feedback for the error
+      // setShowError(true);
       const timerId = setTimeout(() => {
         navigate('/matches/create', { state: { error: 'Matching process failed. Please try again.' } });
-      }, 5000); // Delay to show the error message before redirecting
+      }, 5000);
       return () => clearTimeout(timerId);
     }
   }, [countdown, matchInfo, navigate]);

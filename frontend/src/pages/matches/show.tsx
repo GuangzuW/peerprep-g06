@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Stack, TextField, Typography } from '@mui/material';
 import { useShow } from '@refinedev/core';
 import { NumberField, Show } from '@refinedev/mui';
@@ -16,12 +16,10 @@ interface MatchRequest {
 
 export const MatchShow = () => {
   const { id } = useParams();
-  const [isFetching, setIsFetching] = useState(true);
+  // const [isFetching, setIsFetching] = useState(true);
   const [matchRequest, setMatchRequest] = useState<MatchRequest | null>(null);
   const { queryResult } = useShow({ resource: 'matches' });
   const { data, isLoading } = queryResult;
-
-  const matchRecord = data?.data;
 
   useEffect(() => {
     const fetchMatchRequest = async () => {
@@ -29,10 +27,10 @@ export const MatchShow = () => {
         console.log(`http://localhost:3003/matching-services/${id}`);
         const response = await axios.get(`http://localhost:3003/matching-services/${id}`);
         setMatchRequest(response.data);
-        setIsFetching(false);
+        // setIsFetching(false);
       } catch (error) {
         console.error('Failed to fetch match request:', error);
-        setIsFetching(false);
+        // setIsFetching(false);
       }
     };
 

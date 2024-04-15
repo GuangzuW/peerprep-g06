@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { TextField, Button, MenuItem, Select, FormControl, InputLabel, FormHelperText, Container, Grid, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useGetIdentity } from "@refinedev/core";
-import { appConfig } from '../../config';
 import { IUser } from '../../components/layout/types';
 import { useNavigate } from 'react-router-dom';
 

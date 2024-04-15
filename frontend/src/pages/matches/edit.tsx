@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { TextField, Button, MenuItem, Select, FormControl, InputLabel, FormHelperText, Container, Grid, CircularProgress } from '@mui/material';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Email } from '@mui/icons-material';
 
 interface MatchRequest {
   id: string;

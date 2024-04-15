@@ -1,28 +1,13 @@
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { DeleteButton, EditButton, List, ShowButton, useDataGrid } from "@refinedev/mui";
+import { EditButton, List, ShowButton, useDataGrid } from "@refinedev/mui";
 import axios from 'axios';
-import { match } from "assert";
 import React, { useEffect, useState } from "react";
-import { appConfig } from "../../config";
 
 export const MatchRequestList = () => {
   const { dataGridProps } = useDataGrid({ resource: 'match_request' });
 
   const [matchRequests, setMatchRequests] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       console.log(appConfig.matchingService.listEndpoint);
-  //       const response = await axios.get(appConfig.matchingService.listEndpoint);
-  //       setMatchRequests(response.data);
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
