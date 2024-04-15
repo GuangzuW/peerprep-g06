@@ -10,7 +10,7 @@ export class QuestionsService {
   constructor(
     @Inject("QUESTION_MODEL")
     private questionModel: Model<Question>,
-  ) { }
+  ) {}
 
   async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
     const createdQuestion = this.questionModel.create(createQuestionDto);
@@ -65,7 +65,8 @@ export class QuestionsService {
     return this.questionModel
       .find({
         categories: { $in: categories },
-        complexity: complexity
-      }).exec();
+        complexity: complexity,
+      })
+      .exec();
   }
 }

@@ -22,7 +22,7 @@ import { UpdateQuestionDto } from "./dto/update-question.dto";
 
 @Controller("questions")
 export class QuestionsController {
-  constructor(private readonly questionsService: QuestionsService) {}
+  constructor(private readonly questionsService: QuestionsService) { }
 
   @Roles(Role.Admin)
   @Post()
@@ -112,9 +112,14 @@ export class QuestionsController {
     @Query("categories") categories: string,
     @Query("complexity") complexity: string,
   ) {
-    const results = await this.questionsService.search(categories.split(","), complexity);
+    const results = await this.questionsService.search(
+      categories.split(","),
+      complexity
+    );
     if (results.length === 0) {
-      res.status(HttpStatus.NOT_FOUND).send("No questions found matching your criteria");
+      res
+      .status(HttpStatus.NOT_FOUND)
+      .send("No questions found matching your criteria");
       return;
     }
 
