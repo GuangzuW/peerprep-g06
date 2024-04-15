@@ -19,7 +19,7 @@ export const MatchShow = () => {
   // const [isFetching, setIsFetching] = useState(true);
   const [matchRequest, setMatchRequest] = useState<MatchRequest | null>(null);
   const { queryResult } = useShow({ resource: 'matches' });
-  const { data, isLoading } = queryResult;
+  const { isLoading } = queryResult;
 
   useEffect(() => {
     const fetchMatchRequest = async () => {
