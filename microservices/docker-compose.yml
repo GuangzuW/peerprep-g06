@@ -32,6 +32,7 @@ services:
       PORT: 3001
       ENV: PROD
       JWT_SECRET: secret
+      ENABLE_ADMIN_FOR_FIRST_USER: true
 
   # MongoDB (Question Service)
   question_service_mongodb:

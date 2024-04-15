@@ -9,6 +9,8 @@ let mongoDBUri =
     ? process.env.DB_CLOUD_URI
     : process.env.DB_LOCAL_URI;
 
+let isAdminForFirstUserEnabled = process.env.ENABLE_ADMIN_FOR_FIRST_USER === "true";
+
 mongoose.connect(mongoDBUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -21,10 +23,10 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 export async function createUser(params) {
   params._id = new mongoose.Types.ObjectId();
 
-  // Grant the admin privilege to the first user
-  const hasUsers = await UserModel.exists({});
-  if (!hasUsers) {
-    params.isAdmin = true;
+  if (isAdminForFirstUserEnabled) {
+    if (!await UserModel.exists({})) {
+      params.isAdmin = true;
+    }
   }
 
   return new UserModel(params);
