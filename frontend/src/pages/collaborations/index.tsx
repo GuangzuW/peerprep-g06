@@ -7,10 +7,10 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useWindowSize } from "react-use";
 import { Editor } from "../../components/editor";
-import { IIdentity } from "../../authProvider";
+import { IUser } from "../../components/layout/types";
 
 export const Collaboration = () => {
-  const { data: identity } = useGetIdentity<IIdentity>();
+  const { data: identity } = useGetIdentity<IUser>();
   const { height: windowHeight } = useWindowSize();
   const [maxPanelHeight, setMaxPanelHeight] = useState<string>("80vh");
   const [minEditorHeight, setMinEditorHeight] = useState<string>("100px");
@@ -78,7 +78,7 @@ export const Collaboration = () => {
       </Grid>
       <Grid item xs={6}>
         <Paper id="collaboration-code-panel" elevation={3} sx={{ p: 2, height: "100%", maxHeight: { maxPanelHeight }, overflow: "auto" }}>
-          <Editor id="collaboration-code-editor" username={identity?.name} rootName="default" minHeight={minEditorHeight} />
+          <Editor id="collaboration-code-editor" username={identity?.username} rootName="default" minHeight={minEditorHeight} />
         </Paper>
       </Grid>
     </Grid>
