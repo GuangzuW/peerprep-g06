@@ -60,4 +60,13 @@ export class QuestionsService {
     const deleteResult = await this.questionModel.deleteOne({ _id: id }).exec();
     return deleteResult.deletedCount === 1;
   }
+
+  async search(categories: string[], complexity: string): Promise<Question[]> {
+    return this.questionModel
+      .find({
+        categories: { $in: categories },
+        complexity: complexity,
+      })
+      .exec();
+  }
 }

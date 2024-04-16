@@ -46,6 +46,13 @@ import {
   QuestionShow,
 } from "./pages/questions";
 import { Collaboration } from "./pages/collaborations";
+import {
+  MatchRequestEditForm,
+  MatchRequestList,
+  MatchRequestForm,
+  MatchShow,
+  MatchingInProgress,
+} from "./pages/matches";
 
 function App() {
   return (
@@ -94,6 +101,16 @@ function App() {
                   }
                 }
               },
+              {
+                name: "matches",
+                list: "/matches",
+                create: "/matches/create",
+                edit: "/matches/edit/:id",
+                show: "/matches/show/:id",
+                meta: {
+                  canDelete: true,
+                },
+              },
             ]}
             options={{
               disableTelemetry: true,
@@ -139,6 +156,13 @@ function App() {
                   <Route path="show/:id" element={<QuestionShow />} />
                 </Route>
                 <Route path="/collaborate" element={<Collaboration />} />
+                <Route path="/matches">
+                  <Route index element={<MatchRequestList />} />
+                  <Route path="create" element={<MatchRequestForm />} />
+                  <Route path="edit/:id" element={<MatchRequestEditForm />} />
+                  <Route path="show/:id" element={<MatchShow />} />
+                  <Route path="pair" element={<MatchingInProgress />} />
+                </Route>
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
               <Route
@@ -154,6 +178,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
               </Route>
+
             </Routes>
 
             <UnsavedChangesNotifier />

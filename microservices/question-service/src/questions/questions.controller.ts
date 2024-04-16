@@ -104,4 +104,25 @@ export class QuestionsController {
 
     res.status(HttpStatus.OK).send();
   }
+
+  @Public()
+  @Get("search")
+  async search(
+    @Res() res: Response,
+    @Query("categories") categories: string,
+    @Query("complexity") complexity: string,
+  ) {
+    const results = await this.questionsService.search(
+      categories.split(","),
+      complexity,
+    );
+    if (results.length === 0) {
+      res
+        .status(HttpStatus.NOT_FOUND)
+        .send("No questions found matching your criteria");
+      return;
+    }
+
+    res.status(HttpStatus.OK).send(results);
+  }
 }
