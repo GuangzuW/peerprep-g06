@@ -156,18 +156,6 @@ function App() {
                   <Route path="show/:id" element={<QuestionShow />} />
                 </Route>
                 <Route path="/collaborate" element={<Collaboration />} />
-                {/* <Route path="/blog-posts">
-                  <Route index element={<BlogPostList />} />
-                  <Route path="create" element={<BlogPostCreate />} />
-                  <Route path="edit/:id" element={<BlogPostEdit />} />
-                  <Route path="show/:id" element={<BlogPostShow />} />
-                </Route>
-                <Route path="/categories">
-                  <Route index element={<CategoryList />} />
-                  <Route path="create" element={<CategoryCreate />} />
-                  <Route path="edit/:id" element={<CategoryEdit />} />
-                  <Route path="show/:id" element={<CategoryShow />} />
-                </Route> */}
                 <Route path="/matches">
                   <Route index element={<MatchRequestList />} />
                   <Route path="create" element={<MatchRequestForm />} />

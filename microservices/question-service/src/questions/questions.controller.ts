@@ -108,7 +108,7 @@ export class QuestionsController {
   @Public()
   @Get("search")
   async search(
-    @Res({ passthrough: true }) res: Response,
+    @Res() res: Response,
     @Query("categories") categories: string,
     @Query("complexity") complexity: string,
   ) {

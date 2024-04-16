@@ -39,7 +39,7 @@ jobs:
           cd microservices/question-service && npm ci && npm run lint && cd -
 
           # matching-service
-          cd microservices/matching-service && npm i && npm run lint && cd -
+          cd microservices/matching-service && npm ci && npm run lint && cd -
 
           # collaboration-service
           cd microservices/collaboration-service && npm ci && npm run lint && cd -

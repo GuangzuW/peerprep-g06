@@ -61,7 +61,7 @@ export class QuestionsService {
     return deleteResult.deletedCount === 1;
   }
 
-  async search(categories: string[], complexity: string): Promise<any[]> {
+  async search(categories: string[], complexity: string): Promise<Question[]> {
     return this.questionModel
       .find({
         categories: { $in: categories },

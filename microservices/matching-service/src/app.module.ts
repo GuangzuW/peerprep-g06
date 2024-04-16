@@ -1,4 +1,6 @@
 import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
 import { MongooseModule } from "@nestjs/mongoose";
 import { BullModule } from "@nestjs/bull";
 import { MatchingServicesModule } from "./matching-services/matchingservices.module";
@@ -42,5 +44,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
       inject: [ConfigService],
     }),
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
