@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { useNotification } from "@refinedev/core";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Fab from "@mui/material/Fab";
@@ -26,15 +27,26 @@ export const MatchingRequestorIndicator: React.FC<MatchingRequestorIndicatorProp
   );
   const [progress, setProgress] = useState(initialProgress);
   const timerRef = useRef<number | undefined>(undefined);
+  const notificationEnabledRef = useRef<boolean>(false);
+  const { open: notify } = useNotification();
 
   const startTimer = () => {
     stopTimer();
+    notificationEnabledRef.current = false;
     timerRef.current = setInterval(() => {
       setProgress((prevProgress) => {
         const progress = Math.max(prevProgress - 1, 0);
         if (progress <= 0) {
           stopTimer();
           setCurrentIndicatorType(IndicatorType.Retry);
+          if (!notificationEnabledRef.current) {
+            notificationEnabledRef.current = true;
+            notify?.({
+              type: "error",
+              message: "Error",
+              description: "No matching found",
+            });
+          }
         }
         return progress;
       });

@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import { useGetIdentity, useOne } from "@refinedev/core";
 import { useParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import BuildCircleIcon from '@mui/icons-material/BuildCircle';
 import Paper from "@mui/material/Paper";
+import PublishIcon from '@mui/icons-material/Publish';
+import ShareIcon from '@mui/icons-material/Share';
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useWindowSize } from "react-use";
@@ -59,32 +65,48 @@ export const Collaboration = () => {
   }
 
   return (
-    <Grid id="collaboration-container" container spacing={2} height="100%">
-      <Grid item xs={6}>
-        <Paper elevation={3} sx={{ p: 2, height: "100%", maxHeight: { maxPanelHeight }, overflow: "auto" }}>
-          <Stack gap={1}>
-            <Typography variant="h6">Problem: {question?.title}</Typography>
-            <Stack direction="row" gap={1}>
-              {questionUtils.renderComplexity(question?.complexity)}
-              {questionUtils.renderCategories(question?.categories)}
+    <Box>
+      <Grid id="collaboration-container" container spacing={2} height="100%">
+        <Grid item xs={6}>
+          <Paper elevation={3} sx={{ p: 2, height: "100%", maxHeight: { maxPanelHeight }, overflow: "auto" }}>
+            <Stack gap={1}>
+              <Typography variant="h6">Problem: {question?.title}</Typography>
+              <Stack direction="row" gap={1}>
+                {questionUtils.renderComplexity(question?.complexity)}
+                {questionUtils.renderCategories(question?.categories)}
+              </Stack>
+              <Typography variant="body2" color="text.secondary">
+                {question?.description?.split("\n").map((line: string, index: number) => <span key={index}>{line}<br /></span>)}
+              </Typography>
             </Stack>
-            <Typography variant="body2" color="text.secondary">
-              {question?.description?.split("\n").map((line: string, index: number) => <span key={index}>{line}<br /></span>)}
-            </Typography>
-          </Stack>
-        </Paper>
+          </Paper>
+        </Grid>
+        <Grid item xs={6}>
+          <Paper id="collaboration-code-panel" elevation={3} sx={{ p: 2, height: "100%", maxHeight: { maxPanelHeight }, overflow: "auto" }}>
+            <Editor
+              id="collaboration-code-editor"
+              serviceUrl={appConfig.collaborationService.yjsWebSocketEndpoint + "?"}
+              username={identity?.username}
+              rootName={matchingId}
+              minHeight={minEditorHeight}
+            />
+          </Paper>
+        </Grid>
       </Grid>
-      <Grid item xs={6}>
-        <Paper id="collaboration-code-panel" elevation={3} sx={{ p: 2, height: "100%", maxHeight: { maxPanelHeight }, overflow: "auto" }}>
-          <Editor
-            id="collaboration-code-editor"
-            serviceUrl={appConfig.collaborationService.yjsWebSocketEndpoint + "?"}
-            username={identity?.username}
-            rootName={matchingId}
-            minHeight={minEditorHeight}
-          />
-        </Paper>
-      </Grid>
-    </Grid>
+      <SpeedDial
+        ariaLabel="SpeedDial basic example"
+        sx={{ position: "fixed", bottom: 16, right: 16 }}
+        icon={<BuildCircleIcon />}
+      >
+        <SpeedDialAction
+          icon={<PublishIcon />}
+          tooltipTitle={"Submit"}
+        />
+        <SpeedDialAction
+          icon={<ShareIcon />}
+          tooltipTitle={"Share"}
+        />
+      </SpeedDial>
+    </Box>
   );
 };
