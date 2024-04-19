@@ -1,21 +1,35 @@
 import { useState, useEffect } from "react";
-import { useGetIdentity } from "@refinedev/core";
-import Chip from "@mui/material/Chip";
+import { useGetIdentity, useOne } from "@refinedev/core";
+import { useParams } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { useWindowSize } from "react-use";
 import { Editor } from "../../components/editor";
+import { Loading } from "../../components/loading";
 import { IUser } from "../../components/layout/types";
+import * as questionUtils from "../questions/utils";
 
 export const Collaboration = () => {
+  const { id } = useParams();
   const { data: identity } = useGetIdentity<IUser>();
   const { height: windowHeight } = useWindowSize();
   const [maxPanelHeight, setMaxPanelHeight] = useState<string>("80vh");
   const [minEditorHeight, setMinEditorHeight] = useState<string>("100px");
 
+  const routeIdItems = (id ?? "default.").split(".");
+  const matchingId = routeIdItems[0];
+  const questionId = routeIdItems[1];
+  const { data, isLoading, isError } = useOne({ resource: questionId ? "questions" : "", id: questionId });
+
+  const question = data?.data;
+
   useEffect(() => {
+    if (!question) {
+      return;
+    }
+
     const appBarElement = document.getElementById("app-bar");
     const containerElement = document.getElementById("collaboration-container");
     const codePanelElement = document.getElementById("collaboration-code-panel");
@@ -33,52 +47,35 @@ export const Collaboration = () => {
     const minEditorHeight = maxPanelHeight - codeEditorTopPadding * 2;
     setMaxPanelHeight(`${Math.max(maxPanelHeight, 100)}px`);
     setMinEditorHeight(`${Math.max(minEditorHeight, 100)}px`);
-  }, [windowHeight]);
+  }, [windowHeight, question]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return "Error";
+  }
 
   return (
     <Grid id="collaboration-container" container spacing={2} height="100%">
       <Grid item xs={6}>
         <Paper elevation={3} sx={{ p: 2, height: "100%", maxHeight: { maxPanelHeight }, overflow: "auto" }}>
           <Stack gap={1}>
-            <Typography variant="h6">Problem 1. Reverse a String</Typography>
+            <Typography variant="h6">Problem: {question?.title}</Typography>
             <Stack direction="row" gap={1}>
-              <Chip label="Easy" color="success" />
-              <Chip label="Strings" />
-              <Chip label="Algorithms" />
+              {questionUtils.renderComplexity(question?.complexity)}
+              {questionUtils.renderCategories(question?.categories)}
             </Stack>
-            <Typography variant="body1">
-              Write a function that
-              reverses a string. The
-              input string is given as
-              an array of characters
-              s.
-              You must do this by
-              modifying the input
-              array in-place with
-              O(1) extra memory.
-              Example 1:
-              Input: s =
-              ["h","e","l","l","o"]
-              Output:
-              ["o","l","l","e","h"]
-              Example 2:
-              Input: s =
-              ["H","a","n","n","a","
-              h"]
-              Output:
-              ["h","a","n","n","a","
-              H"]
-              Constraints:
-              1 = s.length = 105
-              s[i] is a printable ascii
-              character.
+            <Typography variant="body2" color="text.secondary">
+              {question?.description?.split("\n").map((line: string, index: number) => <span key={index}>{line}<br /></span>)}
             </Typography>
           </Stack>
         </Paper>
       </Grid>
       <Grid item xs={6}>
         <Paper id="collaboration-code-panel" elevation={3} sx={{ p: 2, height: "100%", maxHeight: { maxPanelHeight }, overflow: "auto" }}>
-          <Editor id="collaboration-code-editor" username={identity?.username} rootName="default" minHeight={minEditorHeight} />
+          <Editor id="collaboration-code-editor" username={identity?.username} rootName={matchingId} minHeight={minEditorHeight} />
         </Paper>
       </Grid>
     </Grid>

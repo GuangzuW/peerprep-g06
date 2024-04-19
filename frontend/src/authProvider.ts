@@ -12,7 +12,10 @@ type ExtendedJwtPayload = {
 
 export const TOKEN_KEY = "auth-token";
 
-export const authProvider: AuthProvider = {
+export const authProvider: AuthProvider & { getToken: () => string | null } = {
+  getToken: () => {
+    return sessionStorage.getItem(TOKEN_KEY);
+  },
   login: async ({ username, email, password }) => {
     if ((username || email) && password) {
       const response = await axiosInstance.post(

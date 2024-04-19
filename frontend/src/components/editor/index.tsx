@@ -78,7 +78,7 @@ export const Editor: React.FC<EditorProps> = ({
     const view = new EditorView({ state, parent: editor.current ?? undefined });
 
     return () => {
-      provider.destroy();
+      // provider.destroy();
       view.destroy();
     };
   });

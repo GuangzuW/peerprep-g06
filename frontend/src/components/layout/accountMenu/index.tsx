@@ -2,13 +2,11 @@ import * as React from 'react';
 import {
   useActiveAuthProvider,
   useGetIdentity,
-  useLink,
   useLogout,
-  useRouterContext,
-  useRouterType,
   useTranslate,
   useWarnAboutChange
 } from "@refinedev/core";
+import { Link as RouterLink } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -23,10 +21,6 @@ import { IUser } from "../types";
 export function AccountMenu() {
   const { data: user } = useGetIdentity<IUser>();
   const t = useTranslate();
-  const routerType = useRouterType();
-  const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
   const { warnWhen, setWarnWhen } = useWarnAboutChange();
   const authProvider = useActiveAuthProvider();
   const { mutate: mutateLogout } = useLogout({
@@ -107,7 +101,7 @@ export function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose} component={ActiveLink} to="/my-account">
+        <MenuItem onClick={handleClose} component={RouterLink} to="/my-account">
           <Avatar /> My Account
         </MenuItem>
         <Divider />
