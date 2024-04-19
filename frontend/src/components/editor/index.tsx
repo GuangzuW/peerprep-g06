@@ -12,6 +12,7 @@ import { ColorModeContext } from "../../contexts/color-mode";
 
 type EditorProps = {
   id?: string;
+  serviceUrl: string;
   username?: string;
   rootName: string;
   minHeight: string;
@@ -32,6 +33,7 @@ const userColor = usercolors[random.uint32() % usercolors.length];
 
 export const Editor: React.FC<EditorProps> = ({
   id,
+  serviceUrl,
   username = 'Anonymous ' + Math.floor(Math.random() * 100),
   rootName,
   minHeight,
@@ -41,7 +43,7 @@ export const Editor: React.FC<EditorProps> = ({
 
   const ydoc = new Y.Doc()
   const provider = new WebsocketProvider(
-    `ws${location.protocol.slice(4)}//${location.hostname}:3004/ws/yjs?`,
+    serviceUrl,
     rootName,
     ydoc,
   );

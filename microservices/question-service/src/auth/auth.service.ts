@@ -13,11 +13,11 @@ export class AuthService {
     token: string,
   ): Promise<{ passed: boolean; payload?: any }> {
     const verifyTokenEndpoint = this.configService.get<string>(
-      "AUTH_VERIFY_TOKEN_ENDPOINT",
+      "API_AUTH_VERIFY_TOKEN_ENDPOINT",
     );
     if (!verifyTokenEndpoint) {
       throw new Error(
-        "AUTH_VERIFY_TOKEN_ENDPOINT environment variable not configured.",
+        "API_AUTH_VERIFY_TOKEN_ENDPOINT environment variable not configured.",
       );
     }
 

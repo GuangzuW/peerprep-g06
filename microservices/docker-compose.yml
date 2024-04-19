@@ -64,7 +64,90 @@ services:
       - "0.0.0.0:3002:3002"
     environment:
       DB_CLOUD_URI: mongodb://question_service_mongodb:27017
-      AUTH_VERIFY_TOKEN_ENDPOINT: http://user_service_app:3001/auth/verify-token
+      API_AUTH_VERIFY_TOKEN_ENDPOINT: http://user_service_app:3001/auth/verify-token
+
+  # MongoDB (Matching Service)
+  matching_service_mongodb:
+    build:
+      context: ./matching-service
+      dockerfile: db.Dockerfile
+    restart: always
+    networks:
+      - matching_service_internal
+    ports:
+      - "0.0.0.0:27017:27017"
+    volumes:
+      - matching_service_mongodb:/data/db
+
+  # Redis (Matching Service)
+  matching_service_redis:
+    build:
+      context: ./matching-service
+      dockerfile: redis.Dockerfile
+    restart: always
+    networks:
+      - matching_service_internal
+    ports:
+      - "0.0.0.0:6379:6379"
+    volumes:
+      - matching_service_redis:/data
+
+  # Application (Matching Service)
+  matching_service_app:
+    build:
+      context: ./matching-service
+      dockerfile: app.Dockerfile
+    depends_on:
+      - matching_service_mongodb
+      - matching_service_redis
+      - user_service_app
+    restart: always
+    networks:
+      - matching_service_internal
+      - matching_service_public
+      - question_service_public
+      - user_service_public
+    ports:
+      - "0.0.0.0:3003:3003"
+    environment:
+      DB_CLOUD_URI: mongodb://matching_service_mongodb:27017
+      REDIS_HOST: matching_service_redis
+      PORT: 3003
+      API_AUTH_VERIFY_TOKEN_ENDPOINT: http://user_service_app:3001/auth/verify-token
+      API_QUESTIONS_GET_ALL_ENDPOINT: http://question_service_app:3002/questions
+      MATCHING_REQUEST_TIME_LIMIT: 30
+
+  # MongoDB (Collaboration Service)
+  collaboration_service_mongodb:
+    build:
+      context: ./collaboration-service
+      dockerfile: db.Dockerfile
+    restart: always
+    networks:
+      - collaboration_service_internal
+    ports:
+      - "0.0.0.0:27017:27017"
+    volumes:
+      - collaboration_service_mongodb:/data/db
+
+  # Application (Collaboration Service)
+  collaboration_service_app:
+    build:
+      context: ./collaboration-service
+      dockerfile: app.Dockerfile
+    depends_on:
+      - collaboration_service_mongodb
+      - user_service_app
+    restart: always
+    networks:
+      - collaboration_service_internal
+      - collaboration_service_public
+      - user_service_public
+    ports:
+      - "0.0.0.0:3004:3004"
+    environment:
+      DB_CLOUD_URI: mongodb://collaboration_service_mongodb:27017
+      API_AUTH_VERIFY_TOKEN_ENDPOINT: http://user_service_app:3001/auth/verify-token
 
 networks:
   user_service_internal:
@@ -73,7 +156,16 @@ networks:
   question_service_internal:
     internal: true
   question_service_public:
+  matching_service_internal:
+    internal: true
+  matching_service_public:
+  collaboration_service_internal:
+    internal: true
+  collaboration_service_public:
 
 volumes:
   user_service_mongodb:
   question_service_mongodb:
+  matching_service_mongodb:
+  matching_service_redis:
+  collaboration_service_mongodb:

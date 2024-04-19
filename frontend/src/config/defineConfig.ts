@@ -22,5 +22,9 @@ export function defineConfig(appInitialConfig: AppInitialConfig) {
       requestEndpoint: `${appInitialConfig.matchingsServiceEndpoint}/matchings/request`,
       cancelEndpoint: `${appInitialConfig.matchingsServiceEndpoint}/matchings/cancel`,
     },
+    collaborationService: {
+      endpoint: appInitialConfig.collaborationServiceEndpoint,
+      yjsWebSocketEndpoint: `ws${appInitialConfig.collaborationServiceEndpoint.slice(4)}/ws/yjs`,
+    },
   };
 }

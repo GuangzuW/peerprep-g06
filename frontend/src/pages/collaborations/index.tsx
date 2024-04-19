@@ -9,6 +9,7 @@ import { useWindowSize } from "react-use";
 import { Editor } from "../../components/editor";
 import { Loading } from "../../components/loading";
 import { IUser } from "../../components/layout/types";
+import { appConfig } from "../../config";
 import * as questionUtils from "../questions/utils";
 
 export const Collaboration = () => {
@@ -75,7 +76,13 @@ export const Collaboration = () => {
       </Grid>
       <Grid item xs={6}>
         <Paper id="collaboration-code-panel" elevation={3} sx={{ p: 2, height: "100%", maxHeight: { maxPanelHeight }, overflow: "auto" }}>
-          <Editor id="collaboration-code-editor" username={identity?.username} rootName={matchingId} minHeight={minEditorHeight} />
+          <Editor
+            id="collaboration-code-editor"
+            serviceUrl={appConfig.collaborationService.yjsWebSocketEndpoint + "?"}
+            username={identity?.username}
+            rootName={matchingId}
+            minHeight={minEditorHeight}
+          />
         </Paper>
       </Grid>
     </Grid>

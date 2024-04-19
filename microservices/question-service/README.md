@@ -32,7 +32,7 @@ following contents:
 ```bash
 
 DB_CLOUD_URI=<MONGODB_CONNECTION_STRING>
-AUTH_VERIFY_TOKEN_ENDPOINT=http://localhost:3001/auth/verify-token
+API_AUTH_VERIFY_TOKEN_ENDPOINT=http://localhost:3001/auth/verify-token
 
 ```
 

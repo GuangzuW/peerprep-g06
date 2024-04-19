@@ -10,6 +10,8 @@ services:
       args:
         VITE_USER_SERVICE_ENDPOINT: http://localhost:3001
         VITE_QUESTION_SERVICE_ENDPOINT: http://localhost:3002
+        VITE_MATCHING_SERVICE_ENDPOINT: http://localhost:3003
+        VITE_COLLABORATION_SERVICE_ENDPOINT: http://localhost:3004
     depends_on:
       - user_service_app
       - question_service_app
