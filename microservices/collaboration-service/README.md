@@ -1,20 +1,22 @@
-# Collaboration Service
+# Matching Service
 
 ![PeerPrep Logo](../../GuideAssets/Logo.png)
 
 ## Description
 
-PeerPrep is a technical interview preparation platform designed to offer a
-collaborative environment for students to practice and prepare for technical
-interviews. Utilizing a microservices architecture, this platform focuses on
-enabling real-time collaboration among users who are matched based on criteria
-such as difficulty level and topic. The Collaboration Service uses the
-[Nest](https://github.com/nestjs/nest) framework, a versatile TypeScript starter
-repository ideal for building efficient, scalable server-side applications.
+The collaboration service in PeerPrep, a technical interview preparation
+platform, provides users with a vibrant and interactive space for real-time
+collaboration, fostering productivity and enhancing interview readiness. This
+service efficiently handles user matches using the Nest framework, ensuring
+seamless connections between individuals. Leveraging Yjs and MongoDB enables
+quick data retrieval and storage, enhancing the overall speed and responsiveness
+of the platform. By focusing on user experience and performance, the
+collaboration service plays a pivotal role in elevating PeerPrep's effectiveness,
+empowering users to excel in their technical interviews.
 
 ## Installation
 
-To install the necessary dependencies for the Collaboration Service, run:
+Before you can run the service, install the necessary dependencies:
 
 ```bash
 
@@ -22,11 +24,29 @@ npm install
 
 ```
 
+## Environment Setup
+
+Configure the environment variables necessary for connecting to Redis and
+MongoDB by creating a `.env` file in your project root with the following contents:
+
+```bash
+
+PORT=3003
+DB_CLOUD_URI=<CONNECTION_STRING>
+REDIS_HOST=<CONNECTION_STRING>
+REDIS_PASS=
+REDIS_PORT=10885
+API_AUTH_VERIFY_TOKEN_ENDPOINT=http://localhost:3001/auth/verify-token
+API_GET_ALL_QUESTIONS_ENDPOINT=http://localhost:3002/questions
+MATCHING_REQUEST_TIME_LIMIT=30
+
+```
+
 ## Running the App
 
-### Development Mode
+### Development
 
-To start the service in the default development mode:
+Start the service in development mode:
 
 ```bash
 
@@ -36,7 +56,7 @@ npm run start
 
 ### Watch Mode
 
-For active development, where the app automatically reloads on file changes, use:
+Run the service in watch mode to automatically reload on file changes:
 
 ```bash
 
@@ -46,7 +66,7 @@ npm run start:dev
 
 ### Production Mode
 
-To run the app in production mode:
+Deploy the service in production mode:
 
 ```bash
 
@@ -56,9 +76,9 @@ npm run start:prod
 
 ## Testing
 
-### Unit Tests
+Ensure your application is running smoothly by executing the following test commands:
 
-Run unit tests to ensure that individual components function correctly:
+### Unit Tests
 
 ```bash
 
@@ -68,8 +88,6 @@ npm run test
 
 ### End-to-End Tests
 
-To execute end-to-end tests, which test the workflow of the app from start to finish:
-
 ```bash
 
 npm run test:e2e
@@ -78,7 +96,7 @@ npm run test:e2e
 
 ### Test Coverage
 
-To generate a report detailing test coverage:
+Generate and view test coverage reports:
 
 ```bash
 
