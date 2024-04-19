@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { AuthModule } from "./auth/auth.module";
+import { RolesModule } from "./roles/roles.module";
+import { MatchingsModule } from "./matchings/matchings.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { MongooseModule } from "@nestjs/mongoose";
-import { BullModule } from "@nestjs/bull";
-import { MatchingServicesModule } from "./matching-services/matchingservices.module";
-import { ConfigModule, ConfigService } from "@nestjs/config";
 
 /**
  * Represents the main module of the application.
@@ -14,35 +14,19 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
     /**
      * Imports the ConfigModule to load configuration variables.
      */
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
     /**
-     * Imports the MongooseModule to connect to MongoDB database.
+     * Imports the AuthModule to verify tokens.
      */
-    MongooseModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        uri: configService.get<string>("MONGODB_URI"),
-      }),
-      inject: [ConfigService],
-    }),
+    AuthModule,
     /**
-     * Imports the MatchingServicesModule to provide matching services.
+     * Imports the RolesModule to verify roles.
      */
-    MatchingServicesModule,
+    RolesModule,
     /**
-     * Imports the BullModule to provide job queue functionality using Redis.
+     * Imports the MatchingsModule to provide matching services.
      */
-    BullModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        redis: {
-          host: configService.get<string>("REDIS_HOST"),
-          port: +configService.get<number>("REDIS_PORT", 6379)!,
-          password: configService.get<string>("REDIS_PASS"),
-        },
-      }),
-      inject: [ConfigService],
-    }),
+    MatchingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

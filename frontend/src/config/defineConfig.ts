@@ -16,5 +16,11 @@ export function defineConfig(appInitialConfig: AppInitialConfig) {
       endpoint: appInitialConfig.questionServiceEndpoint,
       questionCategoriesEndpoint: `${appInitialConfig.questionServiceEndpoint}/questions/categories`
     },
+    matchingService: {
+      endpoint: appInitialConfig.matchingsServiceEndpoint,
+      webSocketEndpoint: `ws${appInitialConfig.matchingsServiceEndpoint.slice(4)}/ws`,
+      requestEndpoint: `${appInitialConfig.matchingsServiceEndpoint}/matchings/request`,
+      cancelEndpoint: `${appInitialConfig.matchingsServiceEndpoint}/matchings/cancel`,
+    },
   };
 }

@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useGetIdentity, usePermissions, useNavigation } from "@refinedev/core";
+import { Link as RouterLink } from "react-router-dom";
 import { HamburgerMenu, RefineThemedLayoutV2HeaderProps, useThemedLayoutContext } from "@refinedev/mui";
 import AppBar from "@mui/material/AppBar";
 import IconButton from "@mui/material/IconButton";
@@ -23,7 +24,7 @@ const Logo: React.FC = () => {
   }
 
   return (
-    <Link href="/" color="inherit" underline="none">
+    <Link component={RouterLink} to="/" color="inherit" underline="none">
       <Stack direction="row">
         <PeerPrepIcon />
         <Typography sx={{ ml: 1 }}>PeerPrep</Typography>

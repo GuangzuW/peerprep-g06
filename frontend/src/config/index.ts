@@ -11,4 +11,5 @@ if (!import.meta.env.VITE_QUESTION_SERVICE_ENDPOINT) {
 export const appConfig = defineConfig({
   userServiceEndpoint: import.meta.env.VITE_USER_SERVICE_ENDPOINT,
   questionServiceEndpoint: import.meta.env.VITE_QUESTION_SERVICE_ENDPOINT,
+  matchingsServiceEndpoint: import.meta.env.VITE_MATCHING_SERVICE_ENDPOINT,
 });

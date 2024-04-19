@@ -25,7 +25,8 @@ export class YjsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleConnection(client: any, request: Request, ..._args: any[]): void {
     const docName = (request.url.split("?")[1] ?? "default").replace(/^\//, "");
-    yUtils.setupWSConnection(client, request, { docName });
+    const revisedDocName = `collaborationmodels_${docName}`;
+    yUtils.setupWSConnection(client, request, { docName: revisedDocName });
   }
 
   handleDisconnect(): void {}
