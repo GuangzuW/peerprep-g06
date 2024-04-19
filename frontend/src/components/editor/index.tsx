@@ -18,6 +18,26 @@ type EditorProps = {
   minHeight: string;
 };
 
+const _defaultTemplate = `
+// JavaScript
+
+/**
+ * Description of the function.
+ * @param {any[]} args - Description of the arguments
+ * @return {any} Description of the return value
+ */
+function functionName(args) {
+  // Your code here
+}
+
+/* Test cases */
+const test1Input = [];
+console.log("Test Case 1:", functionName(test1Input));
+
+const test2Input = [];
+console.log("Test Case 2:", functionName(test2Input));
+`
+
 const usercolors = [
   { color: '#30bced', light: '#30bced33' },
   { color: '#6eeb83', light: '#6eeb8333' },
