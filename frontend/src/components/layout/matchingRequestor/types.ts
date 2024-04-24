@@ -27,6 +27,7 @@ export type MatchingRequestorFormDialogProps = {
 export type MatchingRequestorIndicatorProps = {
   store?: MatchingRequestorStore;
   maxWaitingTime: number;
+  onWaitingTimeOver: () => void;
   onRetry: () => void;
   onCancel: () => void;
 };

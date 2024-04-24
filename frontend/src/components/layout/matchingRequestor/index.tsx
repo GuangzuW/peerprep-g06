@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useCustom, useCustomMutation, useNavigation } from "@refinedev/core";
+import { useCustom, useCustomMutation, useNavigation, useNotification } from "@refinedev/core";
 import { MatchingRequestorLauncher } from "./launcher";
 import { MatchingRequestorFormDialog } from "./formDiaglog";
 import { MatchingRequestorIndicator } from "./indicator";
@@ -49,6 +49,7 @@ export const MatchingRequestor: React.FC = () => {
   });
   const { mutate } = useCustomMutation();
   const { push } = useNavigation();
+  const { open: notify } = useNotification();
 
   const saveStore = (store: MatchingRequestorStore) => {
     sessionStorage.setItem(MATCHING_REQUEST_KEY, JSON.stringify(store));
@@ -128,6 +129,14 @@ export const MatchingRequestor: React.FC = () => {
     startIndicatorCleanerTimer();
   };
 
+  const onWaitingTimeOver = () => {
+    notify?.({
+      type: "error",
+      message: "Error",
+      description: "No matching found",
+    });
+  };
+
   const onRetry = () => {
     const matchingRequest: MatchingRequestorStore = { ...store, requestedAt: new Date() };
     mutate({
@@ -183,6 +192,7 @@ export const MatchingRequestor: React.FC = () => {
         <MatchingRequestorIndicator
           store={store}
           maxWaitingTime={maxWaitingTime}
+          onWaitingTimeOver={onWaitingTimeOver}
           onRetry={onRetry}
           onCancel={onCancel}
         />

@@ -15,28 +15,10 @@ type EditorProps = {
   serviceUrl: string;
   username?: string;
   rootName: string;
+  ytext: Y.Text;
+  defaultValue?: string;
   minHeight: string;
 };
-
-const _defaultTemplate = `
-// JavaScript
-
-/**
- * Description of the function.
- * @param {any[]} args - Description of the arguments
- * @return {any} Description of the return value
- */
-function functionName(args) {
-  // Your code here
-}
-
-/* Test cases */
-const test1Input = [];
-console.log("Test Case 1:", functionName(test1Input));
-
-const test2Input = [];
-console.log("Test Case 2:", functionName(test2Input));
-`
 
 const usercolors = [
   { color: '#30bced', light: '#30bced33' },
@@ -56,18 +38,37 @@ export const Editor: React.FC<EditorProps> = ({
   serviceUrl,
   username = 'Anonymous ' + Math.floor(Math.random() * 100),
   rootName,
+  ytext,
+  defaultValue,
   minHeight,
 }) => {
+  if (!ytext.doc) {
+    throw new Error("Invalid Y.Text instance.");
+  }
+
   const { mode } = useContext(ColorModeContext);
   const editor = useRef(null);
+  const syncDebounceRef = useRef<{ timer?: number, completed: boolean }>({ completed: false });
 
-  const ydoc = new Y.Doc()
   const provider = new WebsocketProvider(
     serviceUrl,
     rootName,
-    ydoc,
+    ytext.doc,
   );
-  const ytext = ydoc.getText('codemirror');
+  if (defaultValue) {
+    provider.on("sync", (isSynced: boolean) => {
+      if (syncDebounceRef.current.completed) {
+        return;
+      }
+      syncDebounceRef.current.timer && clearTimeout(syncDebounceRef.current.timer);
+      syncDebounceRef.current.timer = setTimeout(() => {
+        syncDebounceRef.current.completed = true;
+        if (isSynced && !ytext.toString()) {
+          ytext.insert(0, defaultValue);
+        }
+      }, 1000) as unknown as number;
+    })
+  }
 
   provider.awareness.setLocalStateField('user', {
     name: username,
