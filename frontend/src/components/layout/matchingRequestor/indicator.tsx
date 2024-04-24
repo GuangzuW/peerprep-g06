@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import { useNotification } from "@refinedev/core";
+import { useEffect, useState } from "react";
+import { useHarmonicIntervalFn } from "react-use";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Fab from "@mui/material/Fab";
@@ -15,6 +15,7 @@ enum IndicatorType {
 export const MatchingRequestorIndicator: React.FC<MatchingRequestorIndicatorProps> = ({
   store,
   maxWaitingTime,
+  onWaitingTimeOver,
   onRetry,
   onCancel,
 }) => {
@@ -26,37 +27,25 @@ export const MatchingRequestorIndicator: React.FC<MatchingRequestorIndicatorProp
     initialProgress !== 0 ? IndicatorType.Countdown : IndicatorType.Retry
   );
   const [progress, setProgress] = useState(initialProgress);
-  const timerRef = useRef<number | undefined>(undefined);
-  const notificationEnabledRef = useRef<boolean>(false);
-  const { open: notify } = useNotification();
+  const [isTimerRunning, setTimerRunning] = useState(false);
+  useHarmonicIntervalFn(() => {
+    setProgress((prevProgress) => {
+      const progress = Math.max(prevProgress - 1, 0);
+      if (prevProgress === 1) {
+        stopTimer();
+        setCurrentIndicatorType(IndicatorType.Retry);
+        onWaitingTimeOver();
+      }
+      return progress;
+    });
+  }, isTimerRunning ? 1000 : null);
 
   const startTimer = () => {
-    stopTimer();
-    notificationEnabledRef.current = false;
-    timerRef.current = setInterval(() => {
-      setProgress((prevProgress) => {
-        const progress = Math.max(prevProgress - 1, 0);
-        if (progress <= 0) {
-          stopTimer();
-          setCurrentIndicatorType(IndicatorType.Retry);
-          if (!notificationEnabledRef.current) {
-            notificationEnabledRef.current = true;
-            notify?.({
-              type: "error",
-              message: "Error",
-              description: "No matching found",
-            });
-          }
-        }
-        return progress;
-      });
-    }, 1000) as unknown as number;
+    setTimerRunning(true);
   };
 
   const stopTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-    }
+    setTimerRunning(false);
   };
 
   useEffect(() => {
